@@ -1,0 +1,40 @@
+name: 1'st CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+    pull_request:
+      branches:
+        - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v3
+
+      - name: Python install
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Requerments
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install -r requerments.txt
+
+      - name: Running linter...
+        run: |
+          source venv/bin/activate
+          pip install flake8
+          flake8 budNOT --count --max-line-length=88 --show-source --statistics
+      - name: Running tests...
+        run: |
+          source venv/bin/activate
+          pip install pytest
+          pytest
