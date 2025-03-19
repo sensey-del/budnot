@@ -8,18 +8,22 @@ import time
 
 console = Console()
 
+
 def clear_console():
     """Очищает консоль."""
     console.clear()
+
 
 def show_welcome_message():
     """Показывает приветственное сообщение."""
     console.print(Panel.fit("[bold green]Добро пожаловать в BudNOTAi![/bold green]"))
     console.print(Rule(style="bold cyan"))
 
+
 def show_exit_message():
     """Показывает сообщение при выходе."""
     console.print(Panel.fit("[bold yellow]Спасибо за использование BudNOTAi![/bold yellow]"))
+
 
 def display_categories(expenses):
     """Отображает список категорий."""
@@ -34,6 +38,7 @@ def display_categories(expenses):
     table.add_row("[bold]Итого[/bold]", f"[bold]{total_percentage}%[/bold]", "—")
     console.print(table)
 
+
 def display_results(recommendation, income):
     """Отображает рекомендации по расходам."""
     table = Table(title=f"Рекомендации по расходам (Доход: {income:.2f} руб.)")
@@ -42,6 +47,7 @@ def display_results(recommendation, income):
     for category, amount in recommendation.items():
         table.add_row(category, f"{amount:.2f} руб.")
     console.print(table)
+
 
 def display_history(config):
     """Отображает историю доходов и расходов."""
@@ -68,6 +74,7 @@ def display_history(config):
 
     console.print(table)
 
+
 def analyze_expenses(config):
     """Анализирует средние расходы по категориям."""
     history = config.get("training_data", [])
@@ -88,9 +95,11 @@ def analyze_expenses(config):
     for category, avg in averages.items():
         console.print(f"  [bold white]{category}[/bold white]: {avg:.2f} руб.")
 
+
 def get_user_action(choices):
     """Запрашивает действие у пользователя."""
     return questionary.select("Выберите действие:", choices=choices).ask()
+
 
 def get_category_input():
     """Запрашивает данные для новой категории."""
@@ -98,9 +107,11 @@ def get_category_input():
     percentage = questionary.text("Введите процент для категории (от 0 до 100):").ask()
     return category, percentage
 
+
 def get_income_input():
     """Запрашивает доход у пользователя."""
     return questionary.text("Введите ваш доход:").ask()
+
 
 def calculate_recommendation(income, expenses):
     """Рассчитывает рекомендации по расходам."""
@@ -112,6 +123,7 @@ def calculate_recommendation(income, expenses):
     recommendation["Свободные деньги"] = income - total_allocated
     return recommendation
 
+
 def show_loading_animation():
     """Показывает анимацию загрузки."""
     with Progress() as progress:
@@ -119,6 +131,7 @@ def show_loading_animation():
         while not progress.finished:
             progress.update(task, advance=10)
             time.sleep(0.1)
+
 
 def get_fixed_amount_input(income):
     """Запрашивает фиксированную сумму для категории.? Добавить вопрос о необходимости..."""

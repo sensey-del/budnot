@@ -11,15 +11,20 @@ from budNOT.ui_manager import (
 )
 import questionary
 
+
 def main():
     config = load_config()
     show_welcome_message()
 
     while True:
         clear_console()
-        console.print(Panel.fit("[bold cyan]Текущие данные:          [/bold cyan]"))
+        console.print(
+        Panel.fit("[bold cyan]Текущие данные:          [/bold cyan]")
+        )
         if not config["expenses"]:
-            console.print("[bold red]⚠ Категории расходов не заданы.[/bold red]")
+            console.print(
+                "[bold red]⚠ Категории расходов не заданы.[/bold red]"
+            )
         else:
             display_categories(config["expenses"])
 
@@ -48,7 +53,9 @@ def main():
                 config = clear_categories(config)
             elif clear_action == "Очистить всё":
                 config = clear_config()
-            console.print("[bold green]Данные успешно очищены![/bold green]")
+            console.print(
+                "[bold green]Данные успешно очищены![/bold green]"
+            )
             input("Нажмите Enter, чтобы продолжить...")
 
         elif action == "Добавить категорию":
@@ -58,16 +65,24 @@ def main():
                 if 0 <= percentage <= 100:
                     config["expenses"][category] = percentage
                     save_config(config)
-                    console.print(f"[bold green]Категория '{category}' добавлена с процентом {percentage}%.[/bold green]")
+                    console.print(
+                        f"[bold green]Категория '{category}' добавлена с процентом {percentage}%.[/bold green]"
+                    )
                 else:
-                    console.print("[bold red]Ошибка: процент должен быть в диапазоне от 0 до 100.[/bold red]")
+                    console.print(
+                        "[bold red]Ошибка: процент должен быть в диапазоне от 0 до 100.[/bold red]"
+                    )
             except ValueError:
-                console.print("[bold red]Ошибка: Введите корректное числовое значение для процента.[/bold red]")
+                console.print(
+                    "[bold red]Ошибка: Введите корректное числовое значение для процента.[/bold red]"
+                )
             input("Нажмите Enter, чтобы продолжить...")
 
         elif action == "Изменить категорию":
             if not config["expenses"]:
-                console.print("[bold red]Нет категорий для изменения![/bold red]")
+                console.print(
+                    "[bold red]Нет категорий для изменения![/bold red]"
+                )
             else:
                 category = questionary.select(
                     "Выберите категорию для изменения:",
@@ -75,22 +90,32 @@ def main():
                 ).ask()
 
                 if category:
-                    percentage_input = questionary.text("Введите новый процент для категории (от 0 до 100):").ask()
+                    percentage_input = questionary.text(
+                        "Введите новый процент для категории (от 0 до 100):"
+                    ).ask()
                     try:
                         percentage = float(percentage_input)
                         if 0 <= percentage <= 100:
                             config["expenses"][category] = percentage
                             save_config(config)
-                            console.print(f"[bold blue]Категория '{category}' обновлена с новым процентом {percentage}%.[/bold blue]")
+                            console.print(
+                                f"[bold blue]Категория '{category}' обновлена с новым процентом {percentage}%.[/bold blue]"
+                            )
                         else:
-                            console.print("[bold red]Ошибка: процент должен быть в диапазоне от 0 до 100.[/bold red]")
+                            console.print(
+                                "[bold red]Ошибка: процент должен быть в диапазоне от 0 до 100.[/bold red]"
+                            )
                     except ValueError:
-                        console.print("[bold red]Ошибка: Введите корректное числовое значение для процента.[/bold red]")
+                        console.print(
+                            "[bold red]Ошибка: Введите корректное числовое значение для процента.[/bold red]"
+                            )
             input("Нажмите Enter, чтобы продолжить...")
 
         elif action == "Удалить категорию":
             if not config["expenses"]:
-                console.print("[bold red]Нет категорий для удаления![/bold red]")
+                console.print(
+                    "[bold red]Нет категорий для удаления![/bold red]"
+                )
             else:
                 category = questionary.select(
                     "Выберите категорию для удаления:",
@@ -100,7 +125,9 @@ def main():
                 if category:
                     del config["expenses"][category]
                     save_config(config)
-                    console.print(f"[bold yellow]Категория '{category}' удалена.[/bold yellow]")
+                    console.print(
+                        f"[bold yellow]Категория '{category}' удалена.[/bold yellow]"
+                    )
             input("Нажмите Enter, чтобы продолжить...")
 
         elif action == "Ввести доход и получить рекомендацию":
@@ -119,7 +146,9 @@ def main():
             if fixed_category and fixed_percentage:
                 config["expenses"][fixed_category] = fixed_percentage
                 save_config(config)
-                console.print(f"[bold green]Категория '{fixed_category}' добавлена с процентом {fixed_percentage:.2f}%.[/bold green]")
+                console.print(
+                    f"[bold green]Категория '{fixed_category}' добавлена с процентом {fixed_percentage:.2f}%.[/bold green]"
+                )
 
             show_loading_animation()
             recommendation = calculate_recommendation(income, config["expenses"])
@@ -135,9 +164,13 @@ def main():
                 training_data.append({"income": income, **recommendation})
                 config["training_data"] = training_data
                 save_config(config)
-                console.print("[bold green]Рекомендации сохранены успешно![/bold green]")
+                console.print(
+                    "[bold green]Рекомендации сохранены успешно![/bold green]"
+                )
             else:
-                console.print("[bold yellow]Рекомендации не сохранены.[/bold yellow]")
+                console.print(
+                    "[bold yellow]Рекомендации не сохранены.[/bold yellow]"
+                )
             input("Нажмите Enter, чтобы продолжить...")
 
         elif action == "Показать историю":
@@ -151,6 +184,7 @@ def main():
         elif action == "Выход":
             show_exit_message()
             break
+
 
 if __name__ == "__main__":
     main()
