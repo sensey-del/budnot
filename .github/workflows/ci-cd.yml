@@ -26,7 +26,7 @@ jobs:
           python -m venv venv
           source venv/bin/activate
           python -m pip install --upgrade pip
-          pip install -r requerments.txt
+          pip install -r requirements.txt
 
       - name: Running linter...
         run: |
